@@ -19,32 +19,24 @@ namespace NumberGuesser
 
             Console.OutputEncoding = Encoding.Unicode;
             Console.Title = "Игра угадай число";
+
+            Console.WriteLine("Игра угадай число");
             
+            Console.WriteLine("\nВведите свое имя");
+            userName = Console.ReadLine();            
 
             while (newGame)
             {
-                Console.WriteLine("\nКомпьютер загадал число от 0 до 100. Попробуй отгадать у тебя 5 попыток");
-                Console.WriteLine("\nХотите сыграть? Y/N");
-                
-                questChar= Console.ReadLine();
+                inGame = true;
+                Random rnd = new Random();
+                compNumber = rnd.Next(100); 
+                chance = 5;
 
-                switch (questChar)
-                {
-                    case "Y":
-                        inGame = true;
-                        Random rnd = new Random();
-                        compNumber = rnd.Next(100);
-                        Console.WriteLine("\nИгра начата! Введите свое имя");
-                        userName = Console.ReadLine();
-                        chance = 5;
-                        break;
-                    case "N":
-                        inGame = false;
-                        newGame = false;
-                        Console.WriteLine("\nВы отказались от игры - как жаль!!!");
-                        Console.ReadLine();
-                        break;
-                }
+                string[] joke = { " во ты лошара!", " я смотрю у тебя хуево с цыфрами!", " ну это пиздец!", " как так то!", " напряги извилины!", " LOL!", " красаучег не отгадал!" };
+
+                Console.WriteLine("\nКомпьютер загадал число от 0 до 100. Попробуй отгадать у тебя 5 попыток");
+
+
 
                 while (inGame && chance != 0)
                 {                    
@@ -53,7 +45,9 @@ namespace NumberGuesser
 
                     CheckValue(compNumber, userNumder);
                     chance--;
+                    
                     if (chance == 0)
+                        Console.WriteLine("\nЗагаданное число компьютером было {0}. {1} {2}",compNumber,userName);
                         newGame = false;
                     //Output
                     Console.WriteLine(mgr, compNumber, userNumder);
