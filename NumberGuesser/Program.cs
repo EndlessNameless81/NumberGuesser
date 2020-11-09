@@ -30,63 +30,65 @@ namespace NumberGuesser
                 inGame = true;
                 Random rnd = new Random();
                 compNumber = rnd.Next(100); 
-                chance = 5;
+                chance = 0;
 
-                string[] joke = { " во ты лошара!", " я смотрю у тебя хуево с цыфрами!", " ну это пиздец!", " как так то!", " напряги извилины!", " LOL!", " красаучег не отгадал!" };
+                string[] joke = { "во ты лошара!", "я смотрю у тебя хуево с цыфрами!", "ну это пиздец!", "как так то!", "напряги извилины!", "LOL!", "красаучег не отгадал!" };
 
                 Console.WriteLine("\nКомпьютер загадал число от 0 до 100. Попробуй отгадать у тебя 5 попыток");
-
-
-
-                while (inGame && chance != 0)
+                               
+                while (inGame && chance != 5)
                 {                    
                     Console.WriteLine("\nВведите число:");
                     userNumder = Int32.Parse(Console.ReadLine());
 
                     CheckValue(compNumber, userNumder);
-                    chance--;
-                    
-                    if (chance == 0)
-                        Console.WriteLine("\nЗагаданное число компьютером было {0}. {1} {2}",compNumber,userName);
-                        newGame = false;
+
+                    if (chance == 5)
+                    {
+                        Console.WriteLine("\nЗагаданное число компьютером было {0}. {1} {2}", compNumber, userName, joke[rnd.Next(6)]);
+                        CheckNewGame();
+                    }
                     //Output
                     Console.WriteLine(mgr, compNumber, userNumder);
 
-                }
-
-                if (chance == 0)
-                {
-                    Console.WriteLine("\nХотите еще попробывать Y/N");
-                    questChar = Console.ReadLine();
-                    switch (questChar)
-                    {
-                        case "Y":
-                            newGame = true;
-                            break;
-                        case "N":
-                            Console.WriteLine("\nВы отказались от игры - как жаль!!!");
-                            Console.ReadLine();
-                            newGame = false;
-                            break;
-                    }
-                }
+                }                
             }            
         }
         static void CheckValue (int a, int b)
         {
+            chance++;
+
             if (a>b)
             {
-                Console.WriteLine("Загаданное число компьютером больше. Попытка:" + chance);
+                Console.WriteLine($"Загаданное число компьютером больше. Попытка: {chance}");
             }
             if (a<b)
             {
-                Console.WriteLine("Загаданное число компьютером меньше. Попытка:" + chance);
+                Console.WriteLine($"Загаданное число компьютером меньше. Попытка: {chance}" );
             }
             if (a==b)
             {
                 Console.WriteLine("Число отгадано - поздравляем!");
-                inGame = false;
-            }
+                CheckNewGame();
+            }            
+        }
+
+        static void CheckNewGame()
+        {
+            Console.WriteLine("\nХотите еще попробывать Y/N");
+            questChar = Console.ReadLine();
+
+            switch (questChar)
+            {
+                case "Y":
+                    newGame = true;
+                    break;
+                case "N":
+                    Console.WriteLine("\nВы отказались от игры - как жаль!!!");
+                    Console.ReadLine();
+                    newGame = false;
+                    break;
+            }            
         }
     }
 }
